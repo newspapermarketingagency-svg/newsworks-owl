@@ -1,0 +1,1313 @@
+<title>🦉 The Newsworks Owl</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ground: #F3F4F1;
+    --surface: #FFFFFF;
+    --surface-2: #EAECE6;
+    --ink: #1C2024;
+    --ink-muted: #5B6470;
+    --line: #DBDED6;
+    --accent: #2D5FB0;
+    --accent-ink: #FFFFFF;
+    --good: #26794F;
+    --good-bg: #E4F3EA;
+    --warning: #8A5D00;
+    --warning-bg: #FBF0D9;
+    --critical: #A5342A;
+    --critical-bg: #FBE7E4;
+    --ok-bg: #EEF0EC;
+    --shadow: 0 1px 2px rgba(28,32,36,0.06), 0 8px 24px -12px rgba(28,32,36,0.12);
+    --radius: 10px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #14171A;
+      --surface: #1B1F23;
+      --surface-2: #20252B;
+      --ink: #ECEEF0;
+      --ink-muted: #9BA3AC;
+      --line: #2C3136;
+      --accent: #86ACEA;
+      --accent-ink: #0E1420;
+      --good: #5FC98C;
+      --good-bg: #17301F;
+      --warning: #E4B44E;
+      --warning-bg: #362A0E;
+      --critical: #EB8478;
+      --critical-bg: #3A1E1B;
+      --ok-bg: #20252B;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14171A;
+    --surface: #1B1F23;
+    --surface-2: #20252B;
+    --ink: #ECEEF0;
+    --ink-muted: #9BA3AC;
+    --line: #2C3136;
+    --accent: #86ACEA;
+    --accent-ink: #0E1420;
+    --good: #5FC98C;
+    --good-bg: #17301F;
+    --warning: #E4B44E;
+    --warning-bg: #362A0E;
+    --critical: #EB8478;
+    --critical-bg: #3A1E1B;
+    --ok-bg: #20252B;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2.25rem 1.5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.85rem;
+  }
+  .masthead-title {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-weight: 700;
+    font-size: 1.85rem;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .masthead-sub {
+    margin: 0.15rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+    max-width: 46ch;
+  }
+  .masthead-tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    align-self: flex-end;
+    padding-bottom: 0.3rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .intake {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .intake-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .field-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+  .as-of input[type="date"] {
+    font: inherit;
+    font-family: "IBM Plex Mono", monospace;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .dropzone {
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 2.25rem 1.5rem;
+    text-align: center;
+    color: var(--ink-muted);
+    transition: border-color 0.15s ease, background 0.15s ease;
+    cursor: pointer;
+  }
+  .dropzone.drag {
+    border-color: var(--accent);
+    background: var(--ok-bg);
+    color: var(--ink);
+  }
+  .dropzone strong { color: var(--ink); }
+  .dropzone .hint { display: block; margin-top: 0.4rem; font-size: 0.82rem; }
+  .dropzone input[type="file"] { display: none; }
+
+  .btn {
+    font: inherit;
+    font-weight: 500;
+    padding: 0.5rem 0.95rem;
+    border-radius: 7px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .btn:hover { border-color: var(--ink-muted); }
+  .btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, th button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { filter: brightness(1.05); }
+
+  .status-line {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+  }
+  .status-line.error { color: var(--critical); }
+  .file-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  @media (max-width: 560px) { .summary { grid-template-columns: repeat(2, 1fr); } }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .stat .n {
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  .stat .label {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+  }
+  .stat.accent-final .n { color: var(--critical); }
+  .stat.accent-manual .n { color: var(--warning); }
+  .stat.accent-auto .n { color: var(--good); }
+
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .table-toolbar input[type="search"], .table-toolbar select {
+    font: inherit;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .table-toolbar input[type="search"] { min-width: 200px; flex: 1 1 200px; }
+  .toolbar-spacer { flex: 1; }
+  .result-count { font-size: 0.82rem; color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; }
+
+  .table-scroll { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--surface-2);
+    text-align: left;
+    padding: 0.6rem 0.9rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  thead th button {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  thead th button:hover { color: var(--ink); }
+  tbody td {
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tbody tr:hover { background: var(--surface-2); }
+  .name-cell strong { display: block; }
+  .name-cell span { color: var(--ink-muted); font-size: 0.82rem; }
+  .mono { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  .notes-cell { color: var(--ink-muted); font-size: 0.82rem; max-width: 24ch; }
+  .cohort-cell {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .pill-final { background: var(--critical-bg); color: var(--critical); }
+  .pill-manual { background: var(--warning-bg); color: var(--warning); }
+  .pill-automated { background: var(--good-bg); color: var(--good); }
+  .pill-ok { background: var(--ok-bg); color: var(--ink-muted); }
+
+  .empty-state {
+    padding: 1.25rem;
+    color: var(--ink-muted);
+    font-size: 0.88rem;
+  }
+
+  .workspace {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .workspace > #resultsCard { flex: 1 1 auto; min-width: 0; }
+  .checklist {
+    flex: 0 0 300px;
+    padding: 1.1rem 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+  @media (max-width: 900px) {
+    .workspace { flex-direction: column; }
+    .checklist { flex-basis: auto; width: 100%; position: static; max-height: none; }
+  }
+  .checklist-title {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 1.05rem;
+    margin: 0 0 0.3rem;
+  }
+  .checklist-sub {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+  }
+  .checklist-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .checklist-item {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.6rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .checklist-item label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  .checklist-item input[type="checkbox"] { margin-top: 0.2rem; flex-shrink: 0; }
+  .ci-label { flex: 1; font-size: 0.83rem; line-height: 1.35; }
+  .ci-count {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--ink-muted);
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+  .checklist-item.done { background: var(--surface-2); }
+  .checklist-item.done .ci-label { text-decoration: line-through; color: var(--ink-muted); }
+  .ci-download {
+    align-self: flex-start;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.6rem;
+  }
+  .ci-download[data-state="done"] { color: var(--good); border-color: var(--good); }
+  .ci-download[data-state="error"] { color: var(--critical); border-color: var(--critical); }
+  .checklist-empty {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+  }
+  .checklist-foot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 0.85rem;
+  }
+  .checklist-status {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    min-height: 1.1em;
+  }
+  .checklist-status.error { color: var(--critical); }
+
+  footer.notes {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    border-top: 1px solid var(--line);
+    padding-top: 1rem;
+  }
+  footer.notes summary {
+    cursor: pointer;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  footer.notes ul { margin: 0.6rem 0 0; padding-left: 1.1rem; }
+  footer.notes li { margin-bottom: 0.35rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div class="page">
+  <header class="masthead">
+    <div>
+      <h1 class="masthead-title">🦉 The Newsworks Owl</h1>
+      <p class="masthead-sub">Drop in a Learner Progress Report and see which nudge, reminder, or wrap‑up email each Academy learner needs <strong>from you</strong> right now — emails the LMS already sends automatically are left out.</p>
+    </div>
+    <div class="masthead-tag">Newsworks Academy · email schedule v2 · 2 Sept 2026</div>
+  </header>
+
+  <section class="intake card">
+    <div class="intake-row">
+      <div class="as-of">
+        <label class="field-label" for="asOfDate">Calculate as of</label>
+        <input type="date" id="asOfDate" />
+      </div>
+      <div id="fileInfo"></div>
+    </div>
+
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload learner report CSV">
+      <input type="file" id="fileInput" accept=".csv,text/csv" />
+      <div><strong>Drop your Learner Progress Report here</strong>, or click to choose a file.</div>
+      <span class="hint">Save/export the report as a <strong>.csv</strong> file first — this reads the standard two‑row LMS header with First name, Last name, Email, Created On, Learner Status and one Status/Completion Date block per module.</span>
+    </div>
+
+    <div id="statusLine" class="status-line" hidden></div>
+  </section>
+
+  <section class="summary" id="summary" hidden></section>
+
+  <div class="workspace">
+    <section class="card" id="resultsCard" hidden>
+      <div class="table-toolbar">
+        <input type="search" id="search" placeholder="Search name, email, or cohort…" />
+        <select id="stageFilter">
+          <option value="">All stages</option>
+          <option value="Not activated">Not activated</option>
+          <option value="Not started">Not started</option>
+          <option value="Module 1">Module 1</option>
+          <option value="Module 2">Module 2</option>
+          <option value="Module 3">Module 3</option>
+          <option value="Module 4">Module 4</option>
+          <option value="Module 5">Module 5</option>
+          <option value="Module 6">Module 6</option>
+          <option value="Module 7">Module 7</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <select id="channelFilter">
+          <option value="">All email types</option>
+          <option value="final">Final warning</option>
+          <option value="manual">Manual (Newsworks)</option>
+          <option value="ok">None due</option>
+        </select>
+        <select id="emailFilter">
+          <option value="">All email identifiers</option>
+        </select>
+        <div class="toolbar-spacer"></div>
+        <span class="result-count" id="resultCount"></span>
+        <button class="btn" id="copyBtn">Copy as CSV</button>
+      </div>
+      <div class="table-scroll">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th><button data-sort="name">Learner</button></th>
+              <th>Cohort</th>
+              <th><button data-sort="stage">Stage</button></th>
+              <th><button data-sort="weeks">Weeks since trigger</button></th>
+              <th>Recommended email</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="card checklist" id="checklist" hidden>
+      <div class="checklist-head">
+        <h2 class="checklist-title">This week's send checklist</h2>
+        <p class="checklist-sub">Every manual email that's currently due, in schedule order, one row per email identifier. Tick each off as you send it — nothing here is remembered once you leave or reload the page.</p>
+      </div>
+      <ul class="checklist-list" id="checklistList"></ul>
+      <div class="checklist-empty" id="checklistEmpty" hidden>Nothing needs a manual send right now.</div>
+      <div class="checklist-foot">
+        <button class="btn btn-primary" id="downloadAllBtn">Download all as CSVs</button>
+        <div class="checklist-status" id="checklistStatus"></div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="notes">
+    <details>
+      <summary>How this is calculated, and what it assumes</summary>
+      <ul>
+        <li>Learners whose next email is one the <strong>LMS sends automatically</strong> (e.g. "LMS reminder 1 - not started", "LMS Congratulations") are left out of the list below entirely — the "Handled by LMS" count on the summary strip is how many that is. Only emails that need a manual Newsworks send, plus "not activated" and "none due" learners, are shown.</li>
+        <li>The "Recommended email" column shows each email's <strong>identifier</strong>, not its subject line — subject copy is still going through approval. Every identifier the LMS sends automatically starts with "LMS"; everything Newsworks sends manually starts with "Newsworks", so the two are easy to tell apart once reports are combined.</li>
+        <li>"In progress" deliberately stays one bucket (completed module 1, not yet module 4) rather than splitting by exactly which module someone's on — that would need its own reminder ladder per module, which the schedule keeps out of scope for now. The copy just won't name a specific module.</li>
+        <li>Stage is worked out from each module's status: whether module 1, 4, 5 and 7 are marked Completed, and separately whether the certificate has been downloaded.</li>
+        <li>"Not started" reminders are timed from the <strong>Learner Start Date</strong> column, which arrived with the new LMS export. If an older-style export is dropped in without that column, this automatically falls back to <strong>Created On</strong> instead. "In progress" reminders are timed from the <strong>module 1 completion date</strong>.</li>
+        <li>Where several reminder thresholds have already passed, the tool shows the most recent (highest) one — it doesn't know which reminders have actually been sent.</li>
+        <li>Learners not marked <strong>Active</strong> are flagged as needing an activation resend, but Newsworks' activation sequence isn't week‑numbered in the schedule, so no specific reminder number is suggested.</li>
+        <li>The Halfway and Nearly‑there emails are one‑off milestones (fired once on completing module 4 / module 5). Completing module 7 fires "LMS Congratulations" straight away; downloading the certificate later fires its own separate "LMS Certificate" email.</li>
+        <li>Once module 7 is complete, two more things are tracked independently and shown by priority: "Newsworks follow up 1" at 4 weeks after completing module 7, and "Newsworks deleting your account" at 50 weeks after the learner's <strong>last access</strong> across any module (not the completion date) — whichever is due, or overdue, wins.</li>
+        <li>The send checklist lists one row per email identifier currently due, with its own "Download CSV" for just those learners. There's no single .zip of everything, so "Download all as CSVs" instead saves each file in turn — your browser may ask permission after the first couple ("this site wants to download multiple files"); allowing that lets the rest through. Where a saved file genuinely isn't possible, it copies that identifier's rows to the clipboard instead. The checkboxes are just for your own tracking while you work through the list and reset whenever a new report is loaded.</li>
+        <li>Nothing here sends anything — it's a read‑only view to help you decide what to send and to whom.</li>
+      </ul>
+    </details>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ---------- CSV parsing ----------
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = '', inQuotes = false, i = 0;
+    const n = text.length;
+    while (i < n) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+          inQuotes = false; i++; continue;
+        }
+        field += c; i++; continue;
+      } else {
+        if (c === '"') { inQuotes = true; i++; continue; }
+        if (c === ',') { row.push(field); field = ''; i++; continue; }
+        if (c === '\r') { i++; continue; }
+        if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; i++; continue; }
+        field += c; i++; continue;
+      }
+    }
+    if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  const MONTHS = { jan:0, feb:1, mar:2, apr:3, may:4, jun:5, jul:6, aug:7, sep:8, oct:9, nov:10, dec:11 };
+
+  function parseAcademyDate(str) {
+    if (!str) return null;
+    const s = String(str).trim();
+    if (!s) return null;
+    const m = s.match(/^(\d{1,2})[-\/\s]([A-Za-z]{3,})[-\/\s](\d{4})$/);
+    if (m) {
+      const day = parseInt(m[1], 10);
+      const monKey = m[2].slice(0, 3).toLowerCase();
+      const mon = MONTHS[monKey];
+      const year = parseInt(m[3], 10);
+      if (mon !== undefined) {
+        const d = new Date(Date.UTC(year, mon, day));
+        if (!isNaN(d.getTime())) return d;
+      }
+    }
+    const fallback = new Date(s);
+    if (!isNaN(fallback.getTime())) return fallback;
+    return null;
+  }
+
+  function normHeader(s) { return String(s || '').trim().toLowerCase(); }
+
+  function buildColumnMap(headerRow0, headerRow1) {
+    const fieldMap = {
+      'first name': 'firstName', 'last name': 'lastName', 'email': 'email',
+      'cohort': 'cohort', 'created on': 'createdOn', 'learner status': 'learnerStatus',
+      'learner start date': 'learnerStartDate', 'start date': 'learnerStartDate', 'activation date': 'learnerStartDate'
+    };
+    const fields = {};
+    headerRow0.forEach((h, idx) => {
+      const key = fieldMap[normHeader(h)];
+      if (key && fields[key] === undefined) fields[key] = idx;
+    });
+    const missing = ['firstName','lastName','email','createdOn','learnerStatus'].filter(k => fields[k] === undefined);
+    if (missing.length) {
+      throw new Error('Couldn’t find expected columns: ' + missing.join(', ') + '. Make sure this is a Learner Progress Report export with its original headers.');
+    }
+    const blocks = [];
+    let currentName = null;
+    for (let col = 0; col < headerRow0.length; col++) {
+      const h0 = String(headerRow0[col] || '').trim();
+      if (h0) currentName = h0;
+      const h1 = normHeader(headerRow1[col]);
+      if (h1 === 'status' && currentName) {
+        blocks.push({
+          name: currentName,
+          statusCol: col,
+          completionCol: normHeader(headerRow1[col + 1]) === 'completion date' ? col + 1 : null,
+          lastAccessedCol: normHeader(headerRow1[col + 2]) === 'last accessed' ? col + 2 : null
+        });
+      }
+    }
+    if (blocks.length < 2) {
+      throw new Error('Couldn’t find any module progress columns. Expected repeating Status / Completion Date columns per module.');
+    }
+    const certificate = blocks[blocks.length - 1];
+    const modules = blocks.slice(0, -1);
+    return { fields, modules, certificate };
+  }
+
+  function getCell(row, col) { return (col === null || col === undefined) ? '' : (row[col] !== undefined ? row[col] : ''); }
+  function weeksBetween(from, to) { return (to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24 * 7); }
+
+  // Email schedule v2 — "Final email schedule, 2 September 2026".
+  // Labels below are the exact "email identifier" / "email title" strings
+  // from that schedule, not the subject lines — subject copy is still going
+  // through approval, and every Newsworks-sent identifier already starts
+  // with "Newsworks" (vs "LMS" for ones the LMS sends automatically), which
+  // is what makes the two easy to tell apart once reports are combined.
+  const LADDERS = {
+    NOT_STARTED: [
+      { weeks: 2,  label: "LMS reminder 1 - not started", channel: 'automated', source: 'New LMS' },
+      { weeks: 4,  label: "LMS reminder 2 - not started", channel: 'automated', source: 'New LMS' },
+      { weeks: 6,  label: "LMS reminder 3 - not started", channel: 'automated', source: 'New LMS' },
+      { weeks: 10, label: "Newsworks not started reminder 1_10wks", channel: 'manual', source: 'Newsworks' },
+      { weeks: 20, label: "Newsworks not started reminder 2_20 wks", channel: 'manual', source: 'Newsworks' },
+      { weeks: 30, label: "Newsworks not started reminder 3_30 wks", channel: 'manual', source: 'Newsworks' },
+      { weeks: 40, label: "Newsworks not started reminder 4_40 wks", channel: 'manual', source: 'Newsworks' },
+      { weeks: 50, label: "Newsworks not started final reminder 5_50wks", channel: 'final', source: 'Newsworks' }
+    ],
+    IN_PROGRESS: [
+      { weeks: 2,  label: "LMS reminder 1 - in progress", channel: 'automated', source: 'New LMS' },
+      { weeks: 4,  label: "LMS reminder 2 - in progress", channel: 'automated', source: 'New LMS' },
+      { weeks: 6,  label: "LMS reminder 3 - in progress", channel: 'automated', source: 'New LMS' },
+      { weeks: 8,  label: "Newsworks in progress reminder 1_8wks post M1", channel: 'manual', source: 'Newsworks' },
+      { weeks: 10, label: "Newsworks in progress reminder 2_10wks post M1", channel: 'manual', source: 'Newsworks' },
+      { weeks: 12, label: "Newsworks in progress reminder 3_12wks post M1", channel: 'manual', source: 'Newsworks' },
+      { weeks: 20, label: "Newsworks in progress reminder 4_20wks post M1", channel: 'manual', source: 'Newsworks' },
+      { weeks: 26, label: "Newsworks in progress reminder 5_26wks post M1", channel: 'manual', source: 'Newsworks' },
+      { weeks: 32, label: "Newsworks in progress reminder 6_32wks post M1", channel: 'manual', source: 'Newsworks' },
+      { weeks: 38, label: "Newsworks in progress reminder 7_38wks post M1", channel: 'manual', source: 'Newsworks' },
+      { weeks: 44, label: "Newsworks in progress reminder 8_44wks post M1", channel: 'final', source: 'Newsworks' },
+      { weeks: 50, label: "Newsworks in progress final reminder 9_50 wks post M1", channel: 'final', source: 'Newsworks' }
+    ]
+  };
+
+  // Every email identifier that can actually appear in "Recommended email"
+  // once automated LMS ones are excluded — built from the ladders above so
+  // it can never drift from them, in the same order they appear in the
+  // schedule (activation → not started → in progress → post completion).
+  const EMAIL_IDENTIFIERS = [
+    'Newsworks: Activation required',
+    ...LADDERS.NOT_STARTED.filter(r => r.channel !== 'automated').map(r => r.label),
+    ...LADDERS.IN_PROGRESS.filter(r => r.channel !== 'automated').map(r => r.label),
+    'Newsworks follow up 1',
+    'Newsworks deleting your account'
+  ];
+
+  function ladderLookup(weeksElapsed, ladder) {
+    let matched = null, matchedIdx = -1;
+    for (let i = 0; i < ladder.length; i++) if (weeksElapsed >= ladder[i].weeks) { matched = ladder[i]; matchedIdx = i; }
+    const next = matchedIdx + 1 < ladder.length ? ladder[matchedIdx + 1] : null;
+    if (!matched) return { due: false, rung: null, next: ladder[0], weeksToNext: ladder[0].weeks - weeksElapsed };
+    return { due: true, rung: matched, next, weeksToNext: next ? next.weeks - weeksElapsed : null };
+  }
+
+  // The "last access" a learner has had with the course, across every module
+  // (used for the post-completion deletion-warning timer, which the Sept 2026
+  // schedule times off last access rather than off the completion date).
+  function lastAccessDate(learner) {
+    let latest = null;
+    const all = learner.modules.concat([learner.certificate]);
+    for (const m of all) {
+      if (m && m.lastAccessedDate && (!latest || m.lastAccessedDate > latest)) latest = m.lastAccessedDate;
+    }
+    return latest;
+  }
+
+  // Which module a learner is currently sitting on, for browsing/filtering
+  // the list — "Not activated" / "Not started" / "Module 1" .. "Module 7" /
+  // "Completed". This is separate from the recommended-email logic below:
+  // per the schedule, that copy never names a specific module, so this is
+  // purely a view onto real progress.
+  const MODULE_STAGE_ORDER = ['Not activated', 'Not started', 'Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5', 'Module 6', 'Module 7', 'Completed'];
+
+  function moduleStageLabel(mods, isActive) {
+    if (!isActive) return 'Not activated';
+    const mod1 = mods[0];
+    if (!mod1 || mod1.status !== 'Completed') {
+      return (mod1 && mod1.status === 'In Progress') ? 'Module 1' : 'Not started';
+    }
+    const idx = mods.findIndex(m => !m || m.status !== 'Completed');
+    return idx === -1 ? 'Completed' : 'Module ' + (idx + 1);
+  }
+
+  function evaluateLearner(learner, asOf) {
+    const mods = learner.modules;
+    const mod1 = mods[0], mod4 = mods[3], mod5 = mods[4], mod7 = mods[6];
+    const cert = learner.certificate;
+    const isActive = normHeader(learner.learnerStatus) === 'active';
+    const startDate = learner.learnerStartDate || learner.createdOn;
+    const moduleStage = moduleStageLabel(mods, isActive);
+
+    let stage, triggerDate, ladderKey = null, milestoneNote = null;
+
+    if (!isActive) {
+      stage = 'NOT_ACTIVATED'; triggerDate = learner.createdOn;
+    } else if (!mod1 || mod1.status !== 'Completed') {
+      stage = 'NOT_STARTED'; triggerDate = startDate; ladderKey = 'NOT_STARTED';
+    } else if (!mod4 || mod4.status !== 'Completed') {
+      stage = 'IN_PROGRESS'; triggerDate = mod1.completionDate || startDate; ladderKey = 'IN_PROGRESS';
+    } else if (!mod5 || mod5.status !== 'Completed') {
+      stage = 'HALFWAY'; triggerDate = mod4.completionDate;
+      milestoneNote = { label: 'LMS reminder 4 - in progress', text: 'Completed module 4 – send this "halfway" email once.' };
+    } else if (!mod7 || mod7.status !== 'Completed') {
+      stage = 'NEARLY_THERE'; triggerDate = mod5.completionDate;
+      milestoneNote = { label: 'LMS reminder 5 - in progress', text: 'Completed module 5 – send this "nearly there" email once.' };
+    } else {
+      stage = 'COMPLETED'; triggerDate = mod7.completionDate;
+    }
+
+    const result = Object.assign({}, learner, {
+      stage, moduleStage, triggerDate, weeksElapsed: null, recommendedEmail: null, channel: null, source: null, notes: null
+    });
+
+    if (stage === 'NOT_ACTIVATED') {
+      result.recommendedEmail = 'Newsworks: Activation required';
+      result.channel = 'manual';
+      result.source = 'Newsworks';
+      result.notes = 'Registered but not activated – Newsworks manages this nudge sequence weekly; this tool can’t tell which reminder number they’re on.';
+      result.weeksElapsed = triggerDate ? weeksBetween(triggerDate, asOf) : null;
+      return result;
+    }
+
+    if (milestoneNote) {
+      result.recommendedEmail = milestoneNote.label;
+      result.channel = 'automated';
+      result.source = 'New LMS';
+      result.notes = milestoneNote.text;
+      result.weeksElapsed = triggerDate ? weeksBetween(triggerDate, asOf) : null;
+      return result;
+    }
+
+    if (stage === 'COMPLETED') {
+      // Course (module 7) is complete. From here three things can be due,
+      // independently of each other and of whether the certificate has been
+      // downloaded — highest-priority currently-due one wins:
+      //  1. Deletion warning, timed off LAST ACCESS across the whole course (50wk)
+      //  2. Newsworks newsletter/feedback follow-up, timed off module-7 completion (4wk)
+      //  3. The automated LMS "Congratulations" / "Certificate" one-offs (the default)
+      const mod7Date = mod7.completionDate;
+      const lastAccess = lastAccessDate(learner) || mod7Date;
+      const weeksSinceMod7 = weeksBetween(mod7Date, asOf);
+      const weeksSinceLastAccess = weeksBetween(lastAccess, asOf);
+
+      if (weeksSinceLastAccess >= 50) {
+        result.triggerDate = lastAccess;
+        result.weeksElapsed = weeksSinceLastAccess;
+        result.recommendedEmail = 'Newsworks deleting your account';
+        result.channel = 'final';
+        result.source = 'Newsworks';
+        result.notes = 'Timed from last activity across all modules, not the completion date. Reply "yes" keeps the account; otherwise it’s due for deletion.';
+        return result;
+      }
+      if (weeksSinceMod7 >= 4) {
+        result.triggerDate = mod7Date;
+        result.weeksElapsed = weeksSinceMod7;
+        result.recommendedEmail = 'Newsworks follow up 1';
+        result.channel = 'manual';
+        result.source = 'Newsworks';
+        result.notes = 'Due 4 weeks after completing module 7, regardless of certificate download. Next: deletion warning at 50 weeks since last access (' + fmtDateNote(lastAccess) + ').';
+        return result;
+      }
+      if (cert && cert.status === 'Completed' && cert.completionDate) {
+        result.triggerDate = cert.completionDate;
+        result.weeksElapsed = weeksBetween(cert.completionDate, asOf);
+        result.recommendedEmail = 'LMS Certificate';
+        result.channel = 'automated';
+        result.source = 'New LMS';
+        result.notes = 'Next: Newsworks follow up 1 in ' + Math.ceil(4 - weeksSinceMod7) + ' week(s) (4wk since module 7 completion).';
+        return result;
+      }
+      result.triggerDate = mod7Date;
+      result.weeksElapsed = weeksSinceMod7;
+      result.recommendedEmail = 'LMS Congratulations';
+      result.channel = 'automated';
+      result.source = 'New LMS';
+      result.notes = 'Certificate not downloaded yet. Next: Newsworks follow up 1 in ' + Math.ceil(4 - weeksSinceMod7) + ' week(s) (4wk since module 7 completion).';
+      return result;
+    }
+
+    if (!triggerDate) {
+      result.recommendedEmail = 'Unknown – missing date';
+      result.channel = 'manual';
+      result.notes = 'Could not find a date to calculate this from.';
+      return result;
+    }
+    const weeksElapsed = weeksBetween(triggerDate, asOf);
+    result.weeksElapsed = weeksElapsed;
+    const lookup = ladderLookup(weeksElapsed, LADDERS[ladderKey]);
+    if (!lookup.due) {
+      result.recommendedEmail = 'None due yet';
+      result.channel = 'ok';
+      result.source = '—';
+      result.notes = 'Next: "' + lookup.next.label + '" in ' + Math.ceil(lookup.weeksToNext) + ' week(s).';
+    } else {
+      result.recommendedEmail = lookup.rung.label;
+      result.channel = lookup.rung.channel;
+      result.source = lookup.rung.source;
+      result.notes = lookup.next
+        ? 'Next: "' + lookup.next.label + '" in ' + Math.ceil(lookup.weeksToNext) + ' week(s).'
+        : 'Final rung of this ladder.';
+    }
+    return result;
+  }
+
+  function fmtDateNote(d) {
+    return d ? d.toISOString().slice(0, 10) : 'unknown';
+  }
+
+  function parseReport(csvText, asOf) {
+    const rows = parseCSV(csvText).filter(r => r.some(c => String(c).trim() !== ''));
+    if (rows.length < 3) throw new Error('This file doesn’t look like a Learner Progress Report (expected a two-row header plus learner rows).');
+    const row0 = rows[0], row1 = rows[1], dataRows = rows.slice(2);
+    const map = buildColumnMap(row0, row1);
+    const fields = map.fields, moduleBlocks = map.modules, certBlock = map.certificate;
+
+    const learners = dataRows.map(row => {
+      const modules = moduleBlocks.map(b => ({
+        name: b.name,
+        status: String(getCell(row, b.statusCol) || '').trim(),
+        completionDate: parseAcademyDate(getCell(row, b.completionCol)),
+        lastAccessedDate: parseAcademyDate(getCell(row, b.lastAccessedCol))
+      }));
+      const certificate = {
+        name: certBlock.name,
+        status: String(getCell(row, certBlock.statusCol) || '').trim(),
+        completionDate: parseAcademyDate(getCell(row, certBlock.completionCol)),
+        lastAccessedDate: parseAcademyDate(getCell(row, certBlock.lastAccessedCol))
+      };
+      return {
+        firstName: getCell(row, fields.firstName),
+        lastName: getCell(row, fields.lastName),
+        email: getCell(row, fields.email),
+        cohort: fields.cohort !== undefined ? getCell(row, fields.cohort) : '',
+        createdOn: parseAcademyDate(getCell(row, fields.createdOn)),
+        learnerStartDate: fields.learnerStartDate !== undefined ? parseAcademyDate(getCell(row, fields.learnerStartDate)) : null,
+        learnerStatus: getCell(row, fields.learnerStatus),
+        modules, certificate
+      };
+    }).filter(l => l.email);
+
+    return learners.map(l => evaluateLearner(l, asOf));
+  }
+
+  // ---------- UI wiring ----------
+  const $ = (id) => document.getElementById(id);
+  const asOfInput = $('asOfDate');
+  const dropzone = $('dropzone');
+  const fileInput = $('fileInput');
+  const statusLine = $('statusLine');
+  const fileInfo = $('fileInfo');
+  const summary = $('summary');
+  const resultsCard = $('resultsCard');
+  const resultsBody = $('resultsBody');
+  const resultCount = $('resultCount');
+  const search = $('search');
+  const stageFilter = $('stageFilter');
+  const channelFilter = $('channelFilter');
+  const emailFilter = $('emailFilter');
+  const copyBtn = $('copyBtn');
+  const checklist = $('checklist');
+  const checklistList = $('checklistList');
+  const checklistEmpty = $('checklistEmpty');
+  const downloadAllBtn = $('downloadAllBtn');
+  const checklistStatus = $('checklistStatus');
+
+  let allResults = [];
+  let sortKey = 'weeks';
+  let sortDir = -1;
+  let currentFileName = '';
+  const sentSet = new Set();
+
+  // ---------- Saving files ----------
+  // `downloads` is a runtime capability the claude.ai viewer grants this
+  // page — it lets us hand the viewer a generated CSV to save, with their
+  // own confirmation. It only exists inside that viewer, so this resolves
+  // to null when the page is opened any other way (e.g. hosted on its own
+  // web address) — in which case saveOrCopyCsv below falls back to a plain
+  // browser download, and only to the clipboard if even that fails.
+  let downloadsApi = null;
+  const downloadsReady = (async function initDownloads() {
+    try {
+      if (window.claude && typeof window.claude.use === 'function') {
+        downloadsApi = await window.claude.use('downloads');
+      }
+    } catch (e) { downloadsApi = null; }
+  })();
+
+  function slugify(s) {
+    return String(s || 'email')
+      .trim()
+      .replace(/[^a-z0-9]+/gi, '_')
+      .replace(/^_+|_+$/g, '')
+      .slice(0, 80) || 'email';
+  }
+
+  const CSV_HEADER = ['First name','Last name','Email','Cohort','Stage','Weeks since trigger','Trigger date','Recommended email','Type','Notes'];
+  function csvEscape(v) { const s = String(v == null ? '' : v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; }
+  function csvRow(r) {
+    return [
+      r.firstName, r.lastName, r.email, r.cohort, r.moduleStage,
+      fmtWeeks(r.weeksElapsed), r.triggerDate ? r.triggerDate.toISOString().slice(0,10) : '',
+      r.recommendedEmail, r.channel, r.notes
+    ].map(csvEscape).join(',');
+  }
+  function buildCsv(rows) {
+    return [CSV_HEADER.join(',')].concat(rows.map(csvRow)).join('\n');
+  }
+
+  // Offers a CSV to the viewer. Tries, in order: the claude.ai downloads
+  // capability (when this page is opened there and it's been granted);
+  // then a plain ordinary browser download, which works in any normal
+  // browser tab with no special permission — this is what fires when the
+  // page is hosted on its own web address; then, only if both of those
+  // are blocked, the clipboard as a last resort. Returns 'saved',
+  // 'delivered', 'downloaded' or 'copied' on success, or throws.
+  async function saveOrCopyCsv(filename, csvText) {
+    await downloadsReady;
+    if (downloadsApi) {
+      const result = await downloadsApi.save({ filename, data: csvText });
+      return result.status; // 'saved' | 'delivered'
+    }
+    try {
+      const blob = new Blob([csvText], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      return 'downloaded';
+    } catch (e) {
+      await navigator.clipboard.writeText(csvText);
+      return 'copied';
+    }
+  }
+
+  function todayISO() {
+    const d = new Date();
+    const tz = d.getTimezoneOffset();
+    const local = new Date(d.getTime() - tz * 60000);
+    return local.toISOString().slice(0, 10);
+  }
+  asOfInput.value = todayISO();
+
+  EMAIL_IDENTIFIERS.forEach(id => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = id;
+    emailFilter.appendChild(opt);
+  });
+
+  function setStatus(msg, isError) {
+    statusLine.hidden = !msg;
+    statusLine.textContent = msg || '';
+    statusLine.classList.toggle('error', !!isError);
+  }
+
+  function getAsOfDate() {
+    const v = asOfInput.value;
+    if (!v) return new Date();
+    const [y, m, d] = v.split('-').map(Number);
+    return new Date(Date.UTC(y, m - 1, d));
+  }
+
+  function fmtWeeks(w) {
+    if (w === null || w === undefined || isNaN(w)) return '—';
+    return w.toFixed(1);
+  }
+
+  function renderSummary(fullResults, visibleResults) {
+    // These four counts reflect every learner's actual course stage,
+    // regardless of whether their next email happens to be automated or
+    // manual — so they're worked out from the full list, not the filtered
+    // (automated-excluded) one shown in the table below.
+    const counts = { notStarted: 0, inProgress: 0, completed: 0 };
+    fullResults.forEach(r => {
+      if (r.stage === 'NOT_ACTIVATED' || r.stage === 'NOT_STARTED') counts.notStarted++;
+      else if (r.stage === 'IN_PROGRESS' || r.stage === 'HALFWAY' || r.stage === 'NEARLY_THERE') counts.inProgress++;
+      else if (r.stage === 'COMPLETED') counts.completed++;
+    });
+    summary.innerHTML = [
+      ['Learners', fullResults.length, ''],
+      ['Not started', counts.notStarted, ''],
+      ['In progress', counts.inProgress, ''],
+      ['Completed', counts.completed, 'accent-auto']
+    ].map(([label, n, cls]) =>
+      '<div class="stat ' + cls + '"><div class="n">' + n + '</div><div class="label">' + label + '</div></div>'
+    ).join('');
+    summary.hidden = false;
+  }
+
+  function applyFiltersAndSort() {
+    const q = search.value.trim().toLowerCase();
+    const stageQ = stageFilter.value;
+    const channelQ = channelFilter.value;
+    const emailQ = emailFilter.value;
+
+    let rows = allResults.filter(r => {
+      if (stageQ && r.moduleStage !== stageQ) return false;
+      if (channelQ && r.channel !== channelQ) return false;
+      if (emailQ && r.recommendedEmail !== emailQ) return false;
+      if (q) {
+        const hay = (r.firstName + ' ' + r.lastName + ' ' + r.email + ' ' + r.cohort).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    rows.sort((a, b) => {
+      let av, bv;
+      if (sortKey === 'name') { av = (a.firstName + ' ' + a.lastName).toLowerCase(); bv = (b.firstName + ' ' + b.lastName).toLowerCase(); }
+      else if (sortKey === 'stage') { av = MODULE_STAGE_ORDER.indexOf(a.moduleStage); bv = MODULE_STAGE_ORDER.indexOf(b.moduleStage); }
+      else { av = a.weeksElapsed === null ? -Infinity : a.weeksElapsed; bv = b.weeksElapsed === null ? -Infinity : b.weeksElapsed; }
+      if (av < bv) return -1 * sortDir;
+      if (av > bv) return 1 * sortDir;
+      return 0;
+    });
+
+    resultCount.textContent = rows.length + ' of ' + allResults.length;
+    resultsBody.innerHTML = rows.map(r => {
+      const trigger = r.triggerDate ? r.triggerDate.toISOString().slice(0, 10) : '—';
+      return '<tr>' +
+        '<td class="name-cell"><strong>' + escapeHtml(r.firstName + ' ' + r.lastName) + '</strong><span>' + escapeHtml(r.email) + '</span></td>' +
+        '<td class="cohort-cell" title="' + escapeHtml(r.cohort || '') + '">' + escapeHtml(r.cohort || '—') + '</td>' +
+        '<td>' + escapeHtml(r.moduleStage) + '</td>' +
+        '<td class="mono">' + fmtWeeks(r.weeksElapsed) + '<br><span style="color:var(--ink-muted);font-size:0.76rem;">since ' + trigger + '</span></td>' +
+        '<td>' + escapeHtml(r.recommendedEmail || '—') + '</td>' +
+        '<td class="notes-cell">' + escapeHtml(r.notes || '') + '</td>' +
+        '</tr>';
+    }).join('') || '<tr><td colspan="6" class="empty-state">No learners match these filters.</td></tr>';
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    currentFileName = file.name;
+    if (!/\.csv$/i.test(file.name) && file.type !== 'text/csv') {
+      setStatus('That doesn’t look like a CSV file. Save/export the report as .csv and try again.', true);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const fullResults = parseReport(String(reader.result), getAsOfDate());
+        // Automated LMS emails need no action from Newsworks, so they're
+        // excluded from the list entirely — only what needs a manual send
+        // (or a "not activated" / "none due" status) shows up below.
+        allResults = fullResults.filter(r => r.channel !== 'automated');
+        fileInfo.innerHTML = '<span class="file-chip">' + escapeHtml(file.name) + ' · ' + fullResults.length + ' learners</span>';
+        setStatus('');
+        renderSummary(fullResults, allResults);
+        resultsCard.hidden = false;
+        applyFiltersAndSort();
+        renderChecklist(allResults);
+      } catch (err) {
+        allResults = [];
+        summary.hidden = true;
+        resultsCard.hidden = true;
+        checklist.hidden = true;
+        setStatus(err.message, true);
+      }
+    };
+    reader.onerror = () => setStatus('Couldn’t read that file.', true);
+    reader.readAsText(file);
+  }
+
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+  fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+  ['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('drag'); }));
+  dropzone.addEventListener('drop', (e) => { const f = e.dataTransfer.files[0]; handleFile(f); });
+
+  asOfInput.addEventListener('change', () => {
+    if (!allResults.length && !currentFileName) return;
+    if (fileInput.files[0]) handleFile(fileInput.files[0]);
+  });
+
+  search.addEventListener('input', applyFiltersAndSort);
+  stageFilter.addEventListener('change', applyFiltersAndSort);
+  channelFilter.addEventListener('change', applyFiltersAndSort);
+  emailFilter.addEventListener('change', applyFiltersAndSort);
+
+  document.querySelectorAll('th button[data-sort]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.getAttribute('data-sort');
+      if (sortKey === key) sortDir *= -1; else { sortKey = key; sortDir = 1; }
+      applyFiltersAndSort();
+    });
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    const q = search.value.trim().toLowerCase();
+    const stageQ = stageFilter.value, channelQ = channelFilter.value, emailQ = emailFilter.value;
+    const rows = allResults.filter(r => {
+      if (stageQ && r.moduleStage !== stageQ) return false;
+      if (channelQ && r.channel !== channelQ) return false;
+      if (emailQ && r.recommendedEmail !== emailQ) return false;
+      if (q) { const hay = (r.firstName+' '+r.lastName+' '+r.email+' '+r.cohort).toLowerCase(); if (!hay.includes(q)) return false; }
+      return true;
+    });
+    const csv = buildCsv(rows);
+    try {
+      await navigator.clipboard.writeText(csv);
+      const original = copyBtn.textContent;
+      copyBtn.textContent = 'Copied ✓';
+      setTimeout(() => { copyBtn.textContent = original; }, 1600);
+    } catch (e) {
+      setStatus('Couldn’t copy to clipboard – your browser may be blocking it.', true);
+    }
+  });
+
+  // ---------- Weekly send checklist ----------
+  function setChecklistStatus(msg, isError) {
+    checklistStatus.textContent = msg || '';
+    checklistStatus.classList.toggle('error', !!isError);
+  }
+
+  function renderChecklist(results) {
+    sentSet.clear();
+    setChecklistStatus('');
+    const counts = {};
+    const rowsByEmail = {};
+    results.forEach(r => {
+      if (!r.recommendedEmail) return;
+      counts[r.recommendedEmail] = (counts[r.recommendedEmail] || 0) + 1;
+      (rowsByEmail[r.recommendedEmail] = rowsByEmail[r.recommendedEmail] || []).push(r);
+    });
+    const items = EMAIL_IDENTIFIERS.filter(id => counts[id] > 0);
+    checklist.hidden = false;
+    checklist._rowsByEmail = rowsByEmail;
+
+    if (!items.length) {
+      checklistList.innerHTML = '';
+      checklistEmpty.hidden = false;
+      downloadAllBtn.disabled = true;
+      return;
+    }
+    checklistEmpty.hidden = true;
+    downloadAllBtn.disabled = false;
+
+    checklistList.innerHTML = items.map(id => {
+      const n = counts[id];
+      return '<li class="checklist-item" data-email="' + escapeHtml(id) + '">' +
+        '<label>' +
+          '<input type="checkbox" class="ci-check" />' +
+          '<span class="ci-label">' + escapeHtml(id) + '</span>' +
+          '<span class="ci-count">' + n + (n === 1 ? ' learner' : ' learners') + '</span>' +
+        '</label>' +
+        '<button type="button" class="btn ci-download">Download CSV</button>' +
+        '</li>';
+    }).join('');
+  }
+
+  checklistList.addEventListener('change', (e) => {
+    if (!e.target.classList.contains('ci-check')) return;
+    const li = e.target.closest('.checklist-item');
+    const email = li.getAttribute('data-email');
+    if (e.target.checked) sentSet.add(email); else sentSet.delete(email);
+    li.classList.toggle('done', e.target.checked);
+  });
+
+  // Ticks an item's checkbox off once its CSV has actually been saved or
+  // copied — so a successful download is also the record of "sent" (or at
+  // least "downloaded, ready to send") without a separate click.
+  function markSent(email) {
+    const li = checklistList.querySelector('.checklist-item[data-email="' + CSS.escape(email) + '"]');
+    if (!li) return;
+    const box = li.querySelector('.ci-check');
+    if (box) box.checked = true;
+    sentSet.add(email);
+    li.classList.add('done');
+  }
+
+  async function downloadOneIdentifier(email, btn) {
+    const rows = (checklist._rowsByEmail && checklist._rowsByEmail[email]) || [];
+    if (!rows.length) return;
+    const csv = buildCsv(rows);
+    const filename = slugify(email) + '.csv';
+    const original = btn ? btn.textContent : null;
+    if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; btn.removeAttribute('data-state'); }
+    try {
+      const outcome = await saveOrCopyCsv(filename, csv);
+      markSent(email);
+      if (btn) {
+        btn.textContent = outcome === 'copied' ? 'Copied ✓' : 'Saved ✓';
+        btn.setAttribute('data-state', 'done');
+        setTimeout(() => { btn.textContent = original; btn.removeAttribute('data-state'); btn.disabled = false; }, 1800);
+      }
+      return outcome;
+    } catch (err) {
+      if (btn) {
+        btn.textContent = (err && err.code === 'declined') ? 'Declined' : 'Failed';
+        btn.setAttribute('data-state', 'error');
+        setTimeout(() => { btn.textContent = original; btn.removeAttribute('data-state'); btn.disabled = false; }, 1800);
+      }
+      throw err;
+    }
+  }
+
+  checklistList.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('ci-download')) return;
+    const li = e.target.closest('.checklist-item');
+    const email = li.getAttribute('data-email');
+    downloadOneIdentifier(email, e.target).catch(() => {});
+  });
+
+  downloadAllBtn.addEventListener('click', async () => {
+    const items = Array.from(checklistList.querySelectorAll('.checklist-item')).map(li => ({
+      email: li.getAttribute('data-email'),
+      btn: li.querySelector('.ci-download')
+    }));
+    if (!items.length) return;
+    downloadAllBtn.disabled = true;
+    setChecklistStatus('Working through ' + items.length + ' file' + (items.length === 1 ? '' : 's') + '…');
+    await downloadsReady;
+
+    // Each file goes through saveOrCopyCsv, which already tries the best
+    // method available here in order (claude.ai capability → plain browser
+    // download → clipboard). A normal browser may ask permission after the
+    // first couple of automatic downloads ("this site wants to download
+    // multiple files") — allowing that lets the rest through.
+    let saved = 0, delivered = 0, downloaded = 0, copied = 0, failed = 0;
+    for (let i = 0; i < items.length; i++) {
+      setChecklistStatus('Working through ' + (i + 1) + ' of ' + items.length + '…');
+      try {
+        const outcome = await downloadOneIdentifier(items[i].email, items[i].btn);
+        if (outcome === 'delivered') delivered++;
+        else if (outcome === 'downloaded') downloaded++;
+        else if (outcome === 'copied') copied++;
+        else saved++;
+      } catch (err) {
+        failed++;
+        // A decline or failure just means "skip this one" – keep going through the rest.
+      }
+    }
+    downloadAllBtn.disabled = false;
+
+    if (copied > 0 && saved === 0 && delivered === 0 && downloaded === 0) {
+      // Nothing here could be saved as a real file at all – fall back to
+      // one combined copy so at least the data isn't lost one row at a
+      // time. It still has a "Recommended email" column, so it can be
+      // split back out in a spreadsheet.
+      const allRows = items.flatMap(it => (checklist._rowsByEmail && checklist._rowsByEmail[it.email]) || []);
+      try {
+        await navigator.clipboard.writeText(buildCsv(allRows));
+        setChecklistStatus('Files can’t be saved from here, so copied all ' + allRows.length + ' rows across ' + items.length + ' identifiers to the clipboard instead — paste into a sheet and filter by "Recommended email" to split them out.');
+      } catch (e) {
+        setChecklistStatus('Couldn’t save or copy from here — try the individual "Download CSV" buttons instead.', true);
+      }
+      return;
+    }
+
+    const parts = [];
+    if (saved) parts.push(saved + ' saved');
+    if (delivered) parts.push(delivered + ' delivered');
+    if (downloaded) parts.push(downloaded + ' downloaded');
+    if (copied) parts.push(copied + ' copied');
+    if (failed) parts.push(failed + ' skipped');
+    const tail = downloaded > 0 ? ' — check your browser’s Downloads folder.' : '.';
+    setChecklistStatus(parts.join(', ') + tail, failed > 0 && saved === 0 && delivered === 0 && downloaded === 0 && copied === 0);
+  });
+})();
+</script>
+
